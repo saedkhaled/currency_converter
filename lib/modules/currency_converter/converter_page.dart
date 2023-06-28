@@ -59,9 +59,10 @@ class _ConverterPageState extends State<ConverterPage> {
                               isLoading: _controller.isLoading.value,
                               currencies: _controller.supportedCurrencies.value,
                               selectedCurrency: _controller.fromCurrency.value,
-                              onCurrencyChanged: (value) =>
-                                  _controller.convert(),
+                              onCurrencyChanged:
+                                  _controller.onFromCurrencyChanged,
                               controller: _controller.valueController,
+                              onAmountChanged: (value) => _controller.convert(),
                             ),
                           ),
                           IconButton(
@@ -77,10 +78,11 @@ class _ConverterPageState extends State<ConverterPage> {
                               isLoading: _controller.isLoading.value,
                               currencies: _controller.supportedCurrencies.value,
                               selectedCurrency: _controller.toCurrency.value,
-                              onCurrencyChanged: (value) =>
-                                  _controller.convert(),
+                              onCurrencyChanged:
+                                  _controller.onToCurrencyChanged,
                               controller: _controller.resultController,
                               isFieldDisabled: true,
+                              onAmountChanged: (value) => _controller.convert(),
                             ),
                           ),
                         ],
