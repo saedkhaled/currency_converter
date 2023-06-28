@@ -33,15 +33,14 @@ class ConverterController {
   ConverterController() {
     getSupportedCurrencies();
     getConversionRates();
-    Timer.periodic(const Duration(seconds: 60), (timer) {
-      getConversionRates();
-      convert();
+    Timer.periodic(const Duration(seconds: 60), (_) {
+      getConversionRates().then((value) => convert());
     });
   }
 
   /// gets the supported currencies from the service and updates the
   /// [supportedCurrencies] variable
-  getSupportedCurrencies() async {
+  Future getSupportedCurrencies() async {
     isLoading.value = true;
     final response = await ConverterService.to.getCodes();
     if (response.isOk) {
@@ -54,7 +53,7 @@ class ConverterController {
 
   /// gets the conversion rates from the service and updates the
   /// [conversionRates] variable
-  getConversionRates() async {
+  Future getConversionRates() async {
     isLoading.value = true;
     final response = await ConverterService.to.getRates(fromCurrency.value);
     if (response.isOk) {
