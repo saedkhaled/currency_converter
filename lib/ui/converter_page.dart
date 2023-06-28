@@ -2,8 +2,8 @@ import 'package:currency_converter/modules/currency_converter/converter_controll
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'currency_dropdown.dart';
-import 'num_pad.dart';
+import 'widgets/currency_row.dart';
+import 'widgets/num_pad.dart';
 
 class ConverterPage extends StatefulWidget {
   const ConverterPage({Key? key}) : super(key: key);
@@ -32,49 +32,22 @@ class _ConverterPageState extends State<ConverterPage> {
         children: <Widget>[
           Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx(
-                    () => CurrencyDropdown(
-                      currencies: _controller.supportedCurrencies.value,
-                      selectedCurrency: _controller.fromCurrency.value,
-                      onCurrencyChanged: _controller.onFromCurrencyChanged,
-                    ),
-                  ),
-                  Obx(
-                    () => Text(
-                      _controller.amount.value.toString(),
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+              Obx(
+                () => CurrencyRow(
+                  currencies: _controller.supportedCurrencies.value,
+                  selectedCurrency: _controller.fromCurrency.value,
+                  onCurrencyChanged: _controller.onFromCurrencyChanged,
+                  amount: _controller.amount.value.toString(),
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx(
-                    () => CurrencyDropdown(
-                      currencies: _controller.supportedCurrencies.value,
-                      selectedCurrency: _controller.toCurrency.value,
-                      onCurrencyChanged: _controller.onToCurrencyChanged,
-                    ),
-                  ),
-                  Obx(
-                    () => Text(
-                      _controller.result.value.toString(),
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 20),
+              Obx(
+                () => CurrencyRow(
+                  currencies: _controller.supportedCurrencies.value,
+                  selectedCurrency: _controller.toCurrency.value,
+                  onCurrencyChanged: _controller.onToCurrencyChanged,
+                  amount: _controller.result.value.toString(),
+                ),
               ),
             ],
           ),

@@ -1,6 +1,4 @@
-import 'package:currency_converter/modules/currency_converter/converter_controller.dart';
 import 'package:flutter/material.dart';
-
 import 'converter_page.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -13,7 +11,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final ConverterController _controller = ConverterController();
 
   @override
   Widget build(BuildContext context) {
