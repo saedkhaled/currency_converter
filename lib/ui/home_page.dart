@@ -19,7 +19,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text(
           'Currency Converter',
           style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 24,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: Center(

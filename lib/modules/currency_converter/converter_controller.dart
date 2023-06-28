@@ -107,4 +107,13 @@ class ConverterController {
     await getSupportedCurrencies();
     getConversionRates();
   }
+
+  swapCurrencies() {
+    final temp = fromCurrency.value;
+    fromCurrency.value = toCurrency.value;
+    toCurrency.value = temp;
+    valueController.text = resultController.text;
+    getConversionRates();
+    convert();
+  }
 }

@@ -59,9 +59,17 @@ class _ConverterPageState extends State<ConverterPage> {
                               isLoading: _controller.isLoading.value,
                               currencies: _controller.supportedCurrencies.value,
                               selectedCurrency: _controller.fromCurrency.value,
-                              onCurrencyChanged:
-                                  _controller.onFromCurrencyChanged,
+                              onCurrencyChanged: (value) =>
+                                  _controller.convert(),
                               controller: _controller.valueController,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => _controller.swapCurrencies(),
+                            icon: const Icon(
+                              Icons.change_circle_outlined,
+                              size: 50,
+                              color: Colors.white,
                             ),
                           ),
                           Obx(
@@ -69,8 +77,10 @@ class _ConverterPageState extends State<ConverterPage> {
                               isLoading: _controller.isLoading.value,
                               currencies: _controller.supportedCurrencies.value,
                               selectedCurrency: _controller.toCurrency.value,
-                              onCurrencyChanged: _controller.onToCurrencyChanged,
+                              onCurrencyChanged: (value) =>
+                                  _controller.convert(),
                               controller: _controller.resultController,
+                              isFieldDisabled: true,
                             ),
                           ),
                         ],
