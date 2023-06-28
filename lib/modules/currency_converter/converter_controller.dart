@@ -21,6 +21,12 @@ class ConverterController {
   /// a responsive variable to hold the conversion rates
   var conversionRates = <String, double>{}.obs;
 
+  /// a responsive variable to hold the error message
+  var message = ''.obs;
+
+  /// a responsive variable to hold the loading state
+  var isLoading = false.obs;
+
   /// a constructor to initialize the supported currencies and conversion rates
   ConverterController() {
     getSupportedCurrencies();
@@ -30,15 +36,28 @@ class ConverterController {
   /// gets the supported currencies from the service and updates the
   /// [supportedCurrencies] variable
   getSupportedCurrencies() async {
+    isLoading.value = true;
     final response = await ConverterService.to.getCodes();
-    supportedCurrencies.value = response;
+    if (response.isOk) {
+      supportedCurrencies.value = response.data ?? [];
+    } else {
+      message.value = response.msg;
+    }
+    isLoading.value = false;
   }
 
   /// gets the conversion rates from the service and updates the
   /// [conversionRates] variable
   getConversionRates() async {
+    isLoading.value = true;
     final response = await ConverterService.to.getRates(fromCurrency.value);
-    conversionRates.value = response;
+    if (response.isOk) {
+      conversionRates.value = response.data ?? {};
+      convert();
+    } else {
+      message.value = response.msg;
+    }
+    isLoading.value = false;
   }
 
   onFromCurrencyChanged(String? value) {
@@ -68,9 +87,12 @@ class ConverterController {
     }
   }
 
+  /// handles the key press events from the keyboard and updates the [amount] variable
   onKeyPressed(value) {
     if (value == '⌫') {
-      amount.value = amount.value.substring(0, amount.value.length - 1);
+      if (amount.value.isNotEmpty) {
+        amount.value = amount.value.substring(0, amount.value.length - 1);
+      }
     } else if (value == '.') {
       if (!amount.value.contains('.')) {
         amount.value += value;
@@ -79,5 +101,10 @@ class ConverterController {
       amount.value += value;
     }
     convert();
+  }
+
+  refresh() async {
+    await getSupportedCurrencies();
+    getConversionRates();
   }
 }
