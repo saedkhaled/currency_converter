@@ -40,60 +40,65 @@ class _ConverterPageState extends State<ConverterPage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: LayoutBuilder(
-                builder: (ctx, constraints) => RefreshIndicator(
-                  onRefresh: () async => _controller.refresh(),
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      height: constraints.maxHeight,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Obx(
-                            () => CurrencyRow(
-                              isLoading: _controller.isLoading.value,
-                              currencies: _controller.supportedCurrencies.value,
-                              selectedCurrency: _controller.fromCurrency.value,
-                              onCurrencyChanged:
-                                  _controller.onFromCurrencyChanged,
-                              controller: _controller.valueController,
-                              onAmountChanged: (value) => _controller.convert(),
-                            ),
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.sizeOf(context).height,
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (ctx, constraints) => RefreshIndicator(
+                      onRefresh: () async => _controller.refresh(),
+                      child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          height: constraints.maxHeight,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Obx(
+                                () => CurrencyRow(
+                                  isLoading: _controller.isLoading.value,
+                                  currencies: _controller.supportedCurrencies.value,
+                                  selectedCurrency: _controller.fromCurrency.value,
+                                  onCurrencyChanged:
+                                      _controller.onFromCurrencyChanged,
+                                  controller: _controller.valueController,
+                                  onAmountChanged: (value) => _controller.convert(),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () => _controller.swapCurrencies(),
+                                icon: const Icon(
+                                  Icons.change_circle_outlined,
+                                  size: 50,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Obx(
+                                () => CurrencyRow(
+                                  isLoading: _controller.isLoading.value,
+                                  currencies: _controller.supportedCurrencies.value,
+                                  selectedCurrency: _controller.toCurrency.value,
+                                  onCurrencyChanged:
+                                      _controller.onToCurrencyChanged,
+                                  controller: _controller.resultController,
+                                  isFieldDisabled: true,
+                                  onAmountChanged: (value) => _controller.convert(),
+                                ),
+                              ),
+                            ],
                           ),
-                          IconButton(
-                            onPressed: () => _controller.swapCurrencies(),
-                            icon: const Icon(
-                              Icons.change_circle_outlined,
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Obx(
-                            () => CurrencyRow(
-                              isLoading: _controller.isLoading.value,
-                              currencies: _controller.supportedCurrencies.value,
-                              selectedCurrency: _controller.toCurrency.value,
-                              onCurrencyChanged:
-                                  _controller.onToCurrencyChanged,
-                              controller: _controller.resultController,
-                              isFieldDisabled: true,
-                              onAmountChanged: (value) => _controller.convert(),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+                NumPad(onKeyPressed: (value) => _controller.onKeyPressed(value)),
+              ],
             ),
-            NumPad(onKeyPressed: (value) => _controller.onKeyPressed(value)),
-          ],
+          ),
         ),
       ),
     );
