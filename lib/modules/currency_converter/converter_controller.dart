@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:currency_converter/modules/currency_converter/converter_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,6 +33,10 @@ class ConverterController {
   ConverterController() {
     getSupportedCurrencies();
     getConversionRates();
+    Timer.periodic(const Duration(seconds: 60), (timer) {
+      getConversionRates();
+      convert();
+    });
   }
 
   /// gets the supported currencies from the service and updates the
