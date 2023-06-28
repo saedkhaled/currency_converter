@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:currency_converter/main.dart';
+import 'package:currency_converter/models/api_response.dart';
+import 'package:currency_converter/models/codes_response.dart';
+import 'package:currency_converter/models/rates_response.dart';
+import 'package:currency_converter/utils/extensions.dart';
 
 import 'converter_provider.dart';
 
@@ -20,21 +24,34 @@ class ConverterService {
   }
 
   /// Get the list of supported currency codes from the API
-  Future<List<String>> getCodes() async {
-    final response = await provider.getCodes();
-    final data = jsonDecode(response.body);
-    final codes = data['supported_codes']
-        .map<String>((item) => item[0].toString())
-        .toList();
-    return codes;
+  Future<ApiResponse<List<String>>> getCodes() async {
+    try {
+      final response = await provider.getCodes();
+      final data = jsonDecode(response.body);
+      if (!response.isOk) {
+        return ApiResponse.error(data['error-type'], response.statusCode);
+      }
+      final codesResponse = CodesResponse.fromJson(data);
+      return ApiResponse.success(codesResponse.supportedCodes, 200);
+    } catch (e) {
+      return ApiResponse.error(
+          'Error in network connection, please try again later!', 500);
+    }
   }
 
   /// Get the exchange rates for a currency against all other currencies
-  Future<Map<String, double>> getRates(String from) async {
-    final response = await provider.getRate(from);
-    final data = jsonDecode(response.body);
-    final rates = data['conversion_rates'].map<String, double>((key, value) =>
-        MapEntry(key.toString(), double.parse(value.toString())));
-    return rates;
+  Future<ApiResponse<Map<String, double>>> getRates(String from) async {
+    try {
+      final response = await provider.getRate(from);
+      final data = jsonDecode(response.body);
+      if (!response.isOk) {
+        return ApiResponse.error(data['error-type'], response.statusCode);
+      }
+      final ratesResponse = RatesResponse.fromJson(data);
+      return ApiResponse.success(ratesResponse.conversionRates, 200);
+    } catch (e) {
+      return ApiResponse.error(
+          'Error in network connection, please try again later!', 500);
+    }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'converter_page.dart';
+import '../modules/currency_converter/converter_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
