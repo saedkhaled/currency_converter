@@ -32,9 +32,9 @@ class CurrencyDropdown extends StatelessWidget {
                 value: item,
                 child: Text(
                   item,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: Colors.red.shade800,
                   ),
                 ),
               ),

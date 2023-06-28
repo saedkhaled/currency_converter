@@ -49,18 +49,18 @@ class CurrencyRow extends StatelessWidget {
                     controller: controller,
                     textAlign: TextAlign.end,
                     onChanged: onAmountChanged,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.red.shade800,
                     ),
                     readOnly: isFieldDisabled,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: '0',
                       hintStyle: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.red.shade800,
                       ),
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,

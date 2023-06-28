@@ -1,6 +1,7 @@
 import 'package:currency_converter/modules/currency_converter/converter_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../ui/widgets/currency_row.dart';
 import '../../ui/widgets/num_pad.dart';
 
@@ -60,12 +61,15 @@ class _ConverterPageState extends State<ConverterPage> {
                               Obx(
                                 () => CurrencyRow(
                                   isLoading: _controller.isLoading.value,
-                                  currencies: _controller.supportedCurrencies.value,
-                                  selectedCurrency: _controller.fromCurrency.value,
+                                  currencies:
+                                      _controller.supportedCurrencies.value,
+                                  selectedCurrency:
+                                      _controller.fromCurrency.value,
                                   onCurrencyChanged:
                                       _controller.onFromCurrencyChanged,
                                   controller: _controller.valueController,
-                                  onAmountChanged: (value) => _controller.convert(),
+                                  onAmountChanged: (value) =>
+                                      _controller.convert(),
                                 ),
                               ),
                               IconButton(
@@ -73,19 +77,22 @@ class _ConverterPageState extends State<ConverterPage> {
                                 icon: const Icon(
                                   Icons.change_circle_outlined,
                                   size: 50,
-                                  color: Colors.white,
+                                  color: Colors.black87,
                                 ),
                               ),
                               Obx(
                                 () => CurrencyRow(
                                   isLoading: _controller.isLoading.value,
-                                  currencies: _controller.supportedCurrencies.value,
-                                  selectedCurrency: _controller.toCurrency.value,
+                                  currencies:
+                                      _controller.supportedCurrencies.value,
+                                  selectedCurrency:
+                                      _controller.toCurrency.value,
                                   onCurrencyChanged:
                                       _controller.onToCurrencyChanged,
                                   controller: _controller.resultController,
                                   isFieldDisabled: true,
-                                  onAmountChanged: (value) => _controller.convert(),
+                                  onAmountChanged: (value) =>
+                                      _controller.convert(),
                                 ),
                               ),
                             ],
@@ -95,7 +102,8 @@ class _ConverterPageState extends State<ConverterPage> {
                     ),
                   ),
                 ),
-                NumPad(onKeyPressed: (value) => _controller.onKeyPressed(value)),
+                NumPad(
+                    onKeyPressed: (value) => _controller.onKeyPressed(value)),
               ],
             ),
           ),
