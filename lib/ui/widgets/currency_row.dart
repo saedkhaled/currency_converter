@@ -7,16 +7,16 @@ class CurrencyRow extends StatelessWidget {
   final List<String> currencies;
   final String selectedCurrency;
   final Function(String?) onCurrencyChanged;
-  final String amount;
   final bool isLoading;
+  final TextEditingController controller;
 
   const CurrencyRow({
     Key? key,
     required this.currencies,
     required this.selectedCurrency,
     required this.onCurrencyChanged,
-    required this.amount,
     required this.isLoading,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -40,12 +40,27 @@ class CurrencyRow extends StatelessWidget {
                   selectedCurrency: selectedCurrency,
                   onCurrencyChanged: onCurrencyChanged,
                 ),
-                Text(
-                  amount,
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                Expanded(
+                  child: TextField(
+                    controller: controller,
+                    textAlign: TextAlign.end,
+                    onChanged: (value) => onCurrencyChanged(value),
+                    style: const TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    decoration: const InputDecoration(
+                      hintText: '0',
+                      hintStyle: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                    ),
+                    keyboardType: TextInputType.number,
                   ),
                 ),
               ],

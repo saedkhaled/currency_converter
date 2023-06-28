@@ -1,19 +1,15 @@
 import 'package:currency_converter/modules/currency_converter/converter_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// A Controller for the currency converter module.
 class ConverterController {
-  /// a responsive variable to hold the amount to convert
-  var amount = '1.0'.obs;
 
   /// a responsive variable to hold the currency to convert from
   var fromCurrency = 'USD'.obs;
 
   /// a responsive variable to hold the currency to convert to
   var toCurrency = 'EUR'.obs;
-
-  /// a responsive variable to hold the result of the conversion
-  var result = 0.0.obs;
 
   /// a responsive variable to hold the list of supported currencies
   var supportedCurrencies = <String>['USD', 'EUR'].obs;
@@ -26,6 +22,10 @@ class ConverterController {
 
   /// a responsive variable to hold the loading state
   var isLoading = false.obs;
+
+  TextEditingController valueController = TextEditingController(text: '1');
+
+  TextEditingController resultController = TextEditingController(text: '1');
 
   /// a constructor to initialize the supported currencies and conversion rates
   ConverterController() {
@@ -79,26 +79,26 @@ class ConverterController {
   /// and updates the [result] variable
   convert() {
     final rate = conversionRates.value[toCurrency.value];
-    final amountDouble = double.tryParse(amount.value);
+    final amountDouble = double.tryParse(valueController.text);
     if (rate != null && amountDouble != null) {
-      result.value = (amountDouble * rate).toPrecision(4);
+      resultController.text = (amountDouble * rate).toPrecision(4).toString();
     } else {
-      result.value = 0.0;
+      resultController.text = 0.0.toString();
     }
   }
 
   /// handles the key press events from the keyboard and updates the [amount] variable
   onKeyPressed(value) {
     if (value == '⌫') {
-      if (amount.value.isNotEmpty) {
-        amount.value = amount.value.substring(0, amount.value.length - 1);
+      if (valueController.text.isNotEmpty) {
+        valueController.text = valueController.text.substring(0, valueController.text.length - 1);
       }
     } else if (value == '.') {
-      if (!amount.value.contains('.')) {
-        amount.value += value;
+      if (!valueController.text.contains('.')) {
+        valueController.text += value;
       }
     } else {
-      amount.value += value;
+      valueController.text += value;
     }
     convert();
   }

@@ -31,58 +31,58 @@ class _ConverterPageState extends State<ConverterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text(
-          'Currency Converter',
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage('assets/images/bg.png'),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: LayoutBuilder(
-              builder: (ctx, constraints) => RefreshIndicator(
-                onRefresh: () async => _controller.refresh(),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    height: constraints.maxHeight,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Obx(
-                          () => CurrencyRow(
-                            isLoading: _controller.isLoading.value,
-                            currencies: _controller.supportedCurrencies.value,
-                            selectedCurrency: _controller.fromCurrency.value,
-                            onCurrencyChanged:
-                                _controller.onFromCurrencyChanged,
-                            amount: _controller.amount.value.toString(),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: LayoutBuilder(
+                builder: (ctx, constraints) => RefreshIndicator(
+                  onRefresh: () async => _controller.refresh(),
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      height: constraints.maxHeight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Obx(
+                            () => CurrencyRow(
+                              isLoading: _controller.isLoading.value,
+                              currencies: _controller.supportedCurrencies.value,
+                              selectedCurrency: _controller.fromCurrency.value,
+                              onCurrencyChanged:
+                                  _controller.onFromCurrencyChanged,
+                              controller: _controller.valueController,
+                            ),
                           ),
-                        ),
-                        Obx(
-                          () => CurrencyRow(
-                            isLoading: _controller.isLoading.value,
-                            currencies: _controller.supportedCurrencies.value,
-                            selectedCurrency: _controller.toCurrency.value,
-                            onCurrencyChanged: _controller.onToCurrencyChanged,
-                            amount: _controller.result.value.toString(),
+                          Obx(
+                            () => CurrencyRow(
+                              isLoading: _controller.isLoading.value,
+                              currencies: _controller.supportedCurrencies.value,
+                              selectedCurrency: _controller.toCurrency.value,
+                              onCurrencyChanged: _controller.onToCurrencyChanged,
+                              controller: _controller.resultController,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          NumPad(onKeyPressed: (value) => _controller.onKeyPressed(value)),
-        ],
+            NumPad(onKeyPressed: (value) => _controller.onKeyPressed(value)),
+          ],
+        ),
       ),
     );
   }
