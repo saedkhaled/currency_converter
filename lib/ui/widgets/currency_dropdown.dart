@@ -34,7 +34,9 @@ class CurrencyDropdown extends StatelessWidget {
                   item,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.red.shade800,
+                    color: item == selectedCurrency
+                        ? Colors.red.shade800
+                        : Colors.white,
                   ),
                 ),
               ),
@@ -42,7 +44,7 @@ class CurrencyDropdown extends StatelessWidget {
             .toList(),
         value: selectedCurrency,
         onChanged: (value) => onCurrencyChanged(value),
-        buttonStyleData:  const ButtonStyleData(
+        buttonStyleData: const ButtonStyleData(
           height: 40,
           width: 80,
         ),
@@ -51,7 +53,7 @@ class CurrencyDropdown extends StatelessWidget {
           width: 200,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
-            color: Colors.red.shade800,
+            color: Colors.red.shade900,
           ),
         ),
         menuItemStyleData: const MenuItemStyleData(
